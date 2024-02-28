@@ -11,19 +11,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService{
-    
-    @Autowired
+ @Autowired
     private CategoriaDao categoriaDao;
 
     @Override
     @Transactional(readOnly = true)
     public List<Categoria> getCategorias(boolean activos) {
-        List<Categoria> lista = categoriaDao.findAll();
-        if(activos == true){
-            //remover elementos inactivos
-            lista.removeIf(c -> !c.isActivo());
+        var lista = categoriaDao.findAll();
+        if (activos) {
+            lista.removeIf(e -> !e.isActivo());
         }
         return lista;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Categoria getCategoria(Categoria categoria) {    
+        return categoriaDao.findById(categoria.getIdCategoria()).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void save(Categoria categoria) {
+        categoriaDao.save(categoria);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Categoria categoria) {
+        categoriaDao.delete(categoria);
     }
     
 }
