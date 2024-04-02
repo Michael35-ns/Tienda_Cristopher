@@ -21,7 +21,7 @@ public interface ProductoService {
 
     public List<Producto> findByPrecioBetweenOrderByDescripcion(double precioInf, double precioSup);
 
-
+    public List<Producto> findByDescripcion(String nombre);
     //Lista de productos utilizando consultas con JPQL    
     public List<Producto> metodoJPQL(double precioInf, double precioSup);
     

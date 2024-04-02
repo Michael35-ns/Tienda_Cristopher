@@ -66,6 +66,15 @@ public class PruebasController {
         model.addAttribute("precioSup", precioSup);
         return "/pruebas/listado2";
     }
+        @PostMapping("/query4")
+    public String consultaQuery4(@RequestParam(value = "nombre") String nombre,
+            @RequestParam(value = "nombre") double precioSup, Model model) {
+        var productos = productoService.findByDescripcion(nombre);
+        model.addAttribute("totalProductos", productos.size());
+        model.addAttribute("productos", productos);
+        model.addAttribute("precioInf", nombre);
+        return "/pruebas/listado2";
+    }
     @PostMapping("/query2")
     public String consultaQuery2(@RequestParam(value = "precioInf") double precioInf,
             @RequestParam(value = "precioSup") double precioSup, Model model) {

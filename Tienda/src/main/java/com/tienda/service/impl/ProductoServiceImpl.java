@@ -60,4 +60,9 @@ public class ProductoServiceImpl implements ProductoService {
         return productoDao.metodoNativo(precioInf, precioSup);
     }
 
+    @Override
+    public List<Producto> findByDescripcion(String nombre) {
+        return productoDao.findByDescripcion(nombre);
+    }
+
 }
