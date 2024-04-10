@@ -1,4 +1,5 @@
 package com.tienda.service;
+
 import jakarta.mail.MessagingException;
 
 public interface CorreoService {

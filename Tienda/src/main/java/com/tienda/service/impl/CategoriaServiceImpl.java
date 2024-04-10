@@ -7,26 +7,28 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Service
-public class CategoriaServiceImpl implements CategoriaService{
- @Autowired
+public class CategoriaServiceImpl implements CategoriaService {
+
+    @Autowired
     private CategoriaDao categoriaDao;
 
     @Override
     @Transactional(readOnly = true)
     public List<Categoria> getCategorias(boolean activos) {
-        var lista = categoriaDao.findAll();
+
+        List<Categoria> lista = categoriaDao.findAll();
         if (activos) {
-            lista.removeIf(e -> !e.isActivo());
+            //Remover los elementos inactivos
+            lista.removeIf(c -> !c.isActivo());
         }
         return lista;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Categoria getCategoria(Categoria categoria) {    
+    public Categoria getCategoria(Categoria categoria) {
         return categoriaDao.findById(categoria.getIdCategoria()).orElse(null);
     }
 
@@ -47,5 +49,4 @@ public class CategoriaServiceImpl implements CategoriaService{
     public List<Categoria> buscarPorDescripcion(String descripcion) {
         return categoriaDao.findByDescripcion(descripcion);
     }
-    
 }

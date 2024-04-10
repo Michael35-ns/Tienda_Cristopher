@@ -1,14 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.tienda.service;
-
-/**
- *
- * @author crisn
- */
-
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,8 +8,8 @@ public interface FirebaseStorageService {
 
     public String cargaImagen(MultipartFile archivoLocalCliente, String carpeta, Long id);
 
-//    El BuketName es el <id_del_proyecto> + ".appspot.com"
-    final String BucketName = "techshop-6a041.appspot.com";
+    //El BuketName es el <id_del_proyecto> + ".appspot.com"
+    final String BucketName = "techshop-2310b.appspot.com";
 
     //Esta es la ruta básica de este proyecto Techshop
     final String rutaSuperiorStorage = "techshop";
@@ -28,7 +18,5 @@ public interface FirebaseStorageService {
     final String rutaJsonFile = "firebase";
     
     //El nombre del archivo Json
-    final String archivoJsonFile = "techshop-6a041-firebase-adminsdk-rkajz-26f0dc0e24,json";
+    final String archivoJsonFile = "techshop-2310b-firebase-adminsdk-m2gi9-ea644f6340.json del archivo";
 }
-
-

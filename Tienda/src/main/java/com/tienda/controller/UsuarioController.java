@@ -1,6 +1,7 @@
 package com.tienda.controller;
 
 import com.tienda.domain.Usuario;
+import com.tienda.service.UsuarioService;
 import com.tienda.service.FirebaseStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,13 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.tienda.service.UsuarioService;
+
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private FirebaseStorageService firebaseStorageService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
@@ -32,12 +36,10 @@ public class UsuarioController {
         return "/usuario/modifica";
     }
 
-    @Autowired
-    private FirebaseStorageService firebaseStorageService;
-
     @PostMapping("/guardar")
     public String usuarioGuardar(Usuario usuario,
             @RequestParam("imagenFile") MultipartFile imagenFile) {
+        
         boolean nuevo = true;
         // Validar si es una creación o modificación (Si trae ID)
         if (usuario.getIdUsuario() != 0) {
@@ -46,24 +48,25 @@ public class UsuarioController {
             usuario.setPassword(actual.getPassword());
             usuario.setUsername(actual.getUsername());
             usuario.setRoles(actual.getRoles());
-            usuario.setActivo(usuario.isActivo());
-            
-            if (imagenFile.isEmpty()) {
+            usuario.setActivo(actual.isActivo());   
+            if (imagenFile.isEmpty()){
                 usuario.setRutaImagen(actual.getRutaImagen());
             }
-        } else {
+        } 
+        else {
             usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
             usuario.setActivo(true); // Para crearlo siempre activo
         }
+        
         if (!imagenFile.isEmpty()) {
-            usuarioService.save(usuario, nuevo);
+            usuarioService.save(usuario, false);
             usuario.setRutaImagen(
                     firebaseStorageService.cargaImagen(
                             imagenFile,
                             "usuario",
                             usuario.getIdUsuario()));
         }
-        usuarioService.save(usuario, true);
+        usuarioService.save(usuario, nuevo);
         return "redirect:/usuario/listado";
     }
 

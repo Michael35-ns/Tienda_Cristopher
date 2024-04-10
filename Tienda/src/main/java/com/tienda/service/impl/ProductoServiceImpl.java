@@ -16,10 +16,12 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Producto> getProducto(boolean activos) {
+    public List<Producto> getProductos(boolean activos) {
+
         var lista = productoDao.findAll();
         if (activos) {
-            lista.removeIf(e -> !e.isActivo());
+            //Remover los elementos inactivos
+            lista.removeIf(c -> !c.isActivo());
         }
         return lista;
     }
@@ -41,6 +43,7 @@ public class ProductoServiceImpl implements ProductoService {
     public void delete(Producto producto) {
         productoDao.delete(producto);
     }
+    // Lista de productos con precio entre ordendados por descripción ConsultaAmpliada
 
     @Override
     @Transactional(readOnly = true)
@@ -59,10 +62,4 @@ public class ProductoServiceImpl implements ProductoService {
     public List<Producto> metodoNativo(double precioInf, double precioSup) {
         return productoDao.metodoNativo(precioInf, precioSup);
     }
-
-    @Override
-    public List<Producto> findByDescripcion(String nombre) {
-        return productoDao.findByDescripcion(nombre);
-    }
-
 }

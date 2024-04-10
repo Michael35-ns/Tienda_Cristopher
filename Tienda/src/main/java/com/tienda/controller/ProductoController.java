@@ -1,7 +1,6 @@
 package com.tienda.controller;
 
 import com.tienda.domain.Producto;
-import com.tienda.domain.Producto;
 import com.tienda.service.CategoriaService;
 import com.tienda.service.ProductoService;
 import com.tienda.service.impl.FirebaseStorageServiceImpl;
@@ -27,7 +26,7 @@ public class ProductoController {
 
     @GetMapping("/listado")
     public String page(Model model) {
-        List<Producto> lista = productoService.getProducto(false);
+        List<Producto> lista = productoService.getProductos(false);
         model.addAttribute("productos", lista);
         model.addAttribute("totalProductos", lista.size());
         model.addAttribute("categorias", categoriaService.getCategorias(true));
@@ -70,16 +69,4 @@ public class ProductoController {
         model.addAttribute("categorias", categoriaService.getCategorias(true));
         return "/producto/modifica";
     }
-
-    @PostMapping("/query3")
-    public String consultaQuery3(@RequestParam(value = "precioInf") double precioInf,
-            @RequestParam(value = "precioSup") double precioSup, Model model) {
-        var productos = productoService.metodoNativo(precioInf, precioSup);
-        model.addAttribute("productos", productos);
-        model.addAttribute("totalProductos", productos.size());
-        model.addAttribute("precioInf", precioInf);
-        model.addAttribute("precioSup", precioSup);
-        return "/pruebas/listado2";
-    }
-
 }
